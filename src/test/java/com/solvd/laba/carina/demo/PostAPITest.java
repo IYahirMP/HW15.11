@@ -39,7 +39,7 @@ public class PostAPITest implements IAbstractTest {
 
     @Test()
     @MethodOwner(owner = "ivan")
-    public void createPostTest(){
+    public void testCreatePost() {
         LOGGER.info("test");
         setCases("1");
         PostPostMethod api = new PostPostMethod();
@@ -48,7 +48,6 @@ public class PostAPITest implements IAbstractTest {
         AtomicInteger counter = new AtomicInteger(0);
 
         api.callAPIWithRetry()
-                .withLogStrategy(APIMethodPoller.LogStrategy.ALL)
                 .peek(rs -> counter.getAndIncrement())
                 .until(rs -> counter.get() == 4)
                 .pollEvery(1, ChronoUnit.SECONDS)
@@ -59,7 +58,7 @@ public class PostAPITest implements IAbstractTest {
 
     @Test()
     @MethodOwner(owner = "ivan")
-    public void updatePostTest(){
+    public void testUpdatePost() {
         LOGGER.info("test");
         setCases("2");
         PutPostMethod api = new PutPostMethod();
@@ -68,7 +67,6 @@ public class PostAPITest implements IAbstractTest {
         AtomicInteger counter = new AtomicInteger(0);
 
         api.callAPIWithRetry()
-                .withLogStrategy(APIMethodPoller.LogStrategy.ALL)
                 .peek(rs -> counter.getAndIncrement())
                 .until(rs -> counter.get() == 4)
                 .pollEvery(1, ChronoUnit.SECONDS)
@@ -76,17 +74,4 @@ public class PostAPITest implements IAbstractTest {
                 .execute();
         api.validateResponse();
     }
-
-/*
-    @Test()
-    @MethodOwner(owner = "ivan")
-    public void getPostCommentsTest(){
-
-    }
-
-    @Test()
-    @MethodOwner(owner = "ivan")
-    public void getCommentsByPostIdTest(){
-
-    }*/
 }
