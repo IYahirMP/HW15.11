@@ -13,9 +13,15 @@
 
 	<parameter name="jenkinsJobExecutionMode" value="continue"/>
 
-	<test name="User API tests">
+	<!--test name="User API tests">
 		<classes>
 			<class name="com.solvd.laba.carina.demo.APISampleTest" />
+		</classes>
+	</test-->
+
+	<test name="Post API tests">
+		<classes>
+			<class name="com.solvd.laba.carina.demo.PostAPITest"/>
 		</classes>
 	</test>
 
