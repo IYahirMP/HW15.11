@@ -3,15 +3,15 @@ package com.solvd.laba.carina.homework.pages.softwaretestingboard;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
-import com.zebrunner.carina.webdriver.locator.Context;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class MenJacketsPage extends AbstractPage {
 
@@ -45,6 +45,9 @@ public class MenJacketsPage extends AbstractPage {
     @FindBy(css=".products.list .product-item")
     private List<ShopCard> productCards;
 
+
+    @FindBy(xpath="//div[contains(@class, 'toolbar-products')][1]")
+    private ProductToolbar productToolbar;
 
     public MenJacketsPage(WebDriver driver) {
         super(driver);
@@ -120,5 +123,17 @@ public class MenJacketsPage extends AbstractPage {
 
     public int elementsInCart(){
         return cart.getProductCount();
+    }
+
+    public void sort(ProductToolbar.SorterOptions option){
+        productToolbar.selectSortingOption(option);
+    }
+
+    public List<String> getProductNames(){
+        return productCards.stream().map(ShopCard::getProductName).collect(Collectors.toList());
+    }
+
+    public List<Double> getProductPrice(){
+        return productCards.stream().map(ShopCard::getPrice).collect(Collectors.toList());
     }
 }

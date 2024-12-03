@@ -1,6 +1,7 @@
 package com.solvd.laba.carina.demo;
 
 import com.solvd.laba.carina.homework.pages.softwaretestingboard.MenJacketsPage;
+import com.solvd.laba.carina.homework.pages.softwaretestingboard.ProductToolbar;
 import com.zebrunner.agent.core.annotation.TestLabel;
 import com.zebrunner.carina.core.IAbstractTest;
 import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
@@ -11,7 +12,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.math.BigDecimal;
 import java.time.Duration;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class JacketsPageTest implements IAbstractTest {
 
@@ -82,5 +86,40 @@ public class JacketsPageTest implements IAbstractTest {
         page.assertPageOpened();
 
         Assert.assertTrue(page.horizontalScroll(), "Not horizontally scrollable");
+    }
+
+    @Test
+    public void testSort(){
+        MenJacketsPage page = new MenJacketsPage(getDriver());
+        page.open();
+        page.assertPageOpened();
+
+        SoftAssert sa = new SoftAssert();
+
+        for(ProductToolbar.SorterOptions option: ProductToolbar.SorterOptions.values()){
+            page.sort(option);
+
+            switch(option){
+                case PRICE:{
+                   sa.assertTrue(page.getProductPrice().equals(
+                            page.getProductPrice()
+                                    .stream()
+                                    .sorted(Double::compareTo)
+                                    .collect(Collectors.toList())
+                    ));
+                   break;
+                }
+                case NAME:{
+                    sa.assertTrue(page.getProductNames().equals(
+                            page.getProductNames()
+                                    .stream()
+                                    .sorted(Comparator.naturalOrder())
+                                    .collect(Collectors.toList())
+                    ));
+                    break;
+                }
+            }
+        }
+        sa.assertAll();
     }
 }

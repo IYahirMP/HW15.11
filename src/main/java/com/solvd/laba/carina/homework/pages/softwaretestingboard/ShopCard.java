@@ -6,6 +6,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ShopCard extends AbstractUIObject {
@@ -20,6 +21,9 @@ public class ShopCard extends AbstractUIObject {
 
     @FindBy(css = ".product.name.product-item-name")
     private ExtendedWebElement productName;
+
+    @FindBy(css = "span.price")
+    private ExtendedWebElement price;
 
     public ShopCard(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -39,5 +43,10 @@ public class ShopCard extends AbstractUIObject {
 
     public String getProductName(){
         return productName.getText();
+    }
+
+    public Double getPrice(){
+        String priceText = price.getText();
+        return Double.parseDouble(priceText.replace("$", ""));
     }
 }
