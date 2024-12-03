@@ -1,5 +1,9 @@
 package com.solvd.laba.carina.homework.pages.softwaretestingboard;
 
+import com.solvd.laba.carina.homework.pages.softwaretestingboard.components.ConfirmModal;
+import com.solvd.laba.carina.homework.pages.softwaretestingboard.components.ProductToolbar;
+import com.solvd.laba.carina.homework.pages.softwaretestingboard.components.ShopCard;
+import com.solvd.laba.carina.homework.pages.softwaretestingboard.components.ShopCart;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
@@ -7,7 +11,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;

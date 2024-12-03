@@ -1,4 +1,4 @@
-package com.solvd.laba.carina.homework.pages.softwaretestingboard;
+package com.solvd.laba.carina.homework.pages.softwaretestingboard.components;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;

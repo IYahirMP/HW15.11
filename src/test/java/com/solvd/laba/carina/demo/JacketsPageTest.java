@@ -1,18 +1,16 @@
 package com.solvd.laba.carina.demo;
 
 import com.solvd.laba.carina.homework.pages.softwaretestingboard.MenJacketsPage;
-import com.solvd.laba.carina.homework.pages.softwaretestingboard.ProductToolbar;
+import com.solvd.laba.carina.homework.pages.softwaretestingboard.components.ProductToolbar;
 import com.zebrunner.agent.core.annotation.TestLabel;
 import com.zebrunner.carina.core.IAbstractTest;
 import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
 import com.zebrunner.carina.core.registrar.tag.Priority;
 import com.zebrunner.carina.core.registrar.tag.TestPriority;
-import org.openqa.selenium.JavascriptExecutor;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Comparator;
 import java.util.stream.Collectors;
