@@ -44,17 +44,17 @@ public class NetworkConfigurationToolTest implements IAbstractTest {
         Login login = new Login(getDriver());
         login.open();
         Assert.assertTrue(login.isPageOpened());
-        Assert.assertTrue(login.getEnteredUsername().equals("TELMEX"));
+        Assert.assertTrue(login.getEnteredUsername().equals("TELMEX"), "Default username is not shown");
 
         MainPage mainPage;
         for (int i = 0; i < 3; i++) {
             login.enterPassword("wrongpassword");
             mainPage = login.clickLoginButton();
-            Assert.assertFalse(mainPage.isPageOpened(3));
+            Assert.assertFalse(mainPage.isPageOpened(3), "Entered credentials are correct. Should change input data");
             login.waitForJSToLoad();
         }
 
-        Assert.assertTrue(login.errorMessageExists());
+        Assert.assertTrue(login.errorMessageExists(), "Login blocking failed");
     }
 }
 //La combinación de la usuario/contraseña es incorrecta. Favor de volver a intentarlo.
