@@ -3,12 +3,10 @@ package com.solvd.laba.carina.homework.pages.myfitnesspal;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.components.*;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.Account;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.Goal;
-import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.WeightLossBarrier;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 public class CreateAccountPage extends AbstractPage {
     @FindBy(css = "main.css-1udhdkt")
@@ -21,11 +19,11 @@ public class CreateAccountPage extends AbstractPage {
     @FindBy(css = "main:has(span[aria-valuenow=\"15\"])")
     Goals goalsModal;
 
-    @FindBy(css = " main:has(span[aria-valuenow=\"18\"])")
+        @FindBy(xpath = " //a[@href=\"/account/create/goals\"]/../../..")
     BigStep bigstep;
 
-    @FindBy(css = "main:has(span[aria-valuenow=\"24\"])")
-    Barriers barriers;
+    @FindBy(xpath = "//button[contains(@value, 'lack_of_time')]/../../../..")
+    BarriersLose barriersLose;
 
 
 
@@ -76,6 +74,10 @@ public class CreateAccountPage extends AbstractPage {
         return goalsModal.isGoalClicked(goal);
     }
 
+    public void continueFromGoals(){
+        goalsModal.clickSubmitButton();
+    }
+
     public boolean isGoalsPage(){
         return goalsModal.isPagePresent();
     }
@@ -86,5 +88,29 @@ public class CreateAccountPage extends AbstractPage {
 
     public boolean isBigStepPage(){
         return bigstep.isPagePresent();
+    }
+
+    public void enterWeightLossBarriers(WeightLossBarrier barrier){
+        switch(barrier){
+            case LACK_OF_TIME: barriersLose.lackOfTimeButton(); break;
+            case REGIME_HARD_TO_FOLLOW: barriersLose.hardRegimenButton();
+            case DID_NOT_ENJOY_FOOD: barriersLose.dietLacksVarietyButton();
+            case DIFFICULT_TO_CHOOSE_FOOD: barriersLose.foodChoiceStressButton();
+            case SOCIAL_EATING_EVENTS: barriersLose.holidaysVacationEventsButton();
+            case FOOD_CRAVINGS: barriersLose.foodCravingsButton();
+            case LACK_OF_PROGRESS: barriersLose.lackOfProgressButton();
+        }
+    }
+
+    public boolean isWeightLossBarrierClicked(WeightLossBarrier barrier){
+        return barriersLose.isWeightLossBarrierClicked(barrier);
+    }
+
+    public void continueFromWeightLossBarriers(){
+        barriersLose.clickSubmitButton();
+    }
+
+    public boolean isWeightLossBarriersPage(){
+        return barriersLose.isPageOpen();
     }
 }

@@ -1,11 +1,14 @@
 package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
 
+import org.apache.commons.math3.optimization.Weight;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Account {
     private String firstName;
     private List<Goal> goals = new ArrayList<Goal>();
+    private List<WeightLossBarrier> weightLossBarriers = new ArrayList<>();
 
     public Account(){}
 
@@ -36,6 +39,27 @@ public class Account {
         }
 
         goals.add(goal);
+        return this;
+    }
+
+    public List<WeightLossBarrier> getWeightLossBarriers() {
+        return weightLossBarriers;
+    }
+
+    public void setWeightLossBarriers(List<WeightLossBarrier> weightLossBarriers) {
+        this.weightLossBarriers = weightLossBarriers;
+    }
+
+    public Account addWeightLossBarrier(WeightLossBarrier barrier) {
+        if (weightLossBarriers.size() >= 7){
+            throw new IllegalArgumentException("All goals are already selected.");
+        }
+
+        if (weightLossBarriers.contains(barrier)) {
+            throw new RuntimeException("Barrier already exists");
+        }
+
+        weightLossBarriers.add(barrier);
         return this;
     }
 

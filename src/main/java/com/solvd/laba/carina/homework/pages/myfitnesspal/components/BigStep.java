@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
 
 public class BigStep extends AbstractUIObject {
-    @FindBy(css = "button>span")
+    @FindBy(css = "div>button[type='submit']")
     ExtendedWebElement continueButton;
 
     @FindBy(css = "a[href='/account/create/goals']")
@@ -21,7 +21,8 @@ public class BigStep extends AbstractUIObject {
     }
 
     public void clickContinueButton() {
-        continueButton.click();
+        waitUntil(ExpectedConditions.visibilityOf(continueButton), Duration.ofSeconds(20));
+        continueButton.click(Duration.ofSeconds(3));
     }
 
     public boolean isPagePresent(){
