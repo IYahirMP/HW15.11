@@ -5,6 +5,9 @@ import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.time.Duration;
 
 public class InputName extends AbstractUIObject {
     @FindBy(css = "input[data-testid=\"newName\"]")
@@ -23,5 +26,10 @@ public class InputName extends AbstractUIObject {
 
     public void clickNextButton(){
         nextButton.click();
+    }
+
+    public boolean isPagePresent(){
+        waitUntil(ExpectedConditions.invisibilityOf(nameInput), Duration.ofSeconds(3));
+        return nameInput.isVisible(Duration.ofSeconds(1));
     }
 }

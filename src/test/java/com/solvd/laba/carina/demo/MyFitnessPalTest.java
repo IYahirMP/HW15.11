@@ -61,7 +61,7 @@ public class MyFitnessPalTest implements IAbstractTest {
         LOGGER.trace("Attempt to submit first name");
         createAccountPage.enterName(account);
         LOGGER.trace("Assert that first name page step has been completed");
-        Assert.assertTrue(createAccountPage.isEnterNamePage(), "Enter name page could not be completed correctly.");
+        Assert.assertFalse(createAccountPage.isEnterNamePage(), "Enter name page could not be completed correctly.");
 
         LOGGER.trace("Attempt to submit goals");
         for (Goal goal : account.getGoals()) {
@@ -69,7 +69,13 @@ public class MyFitnessPalTest implements IAbstractTest {
             Assert.assertTrue(createAccountPage.isGoalClicked(goal));
         }
 
-        sleep();
+        LOGGER.trace("Assert that goal page step has been completed");
+        Assert.assertFalse(createAccountPage.isGoalsPage(), "Goal page could not be completed correctly.");
+
+        LOGGER.trace("Attempts to continue from BigStep page");
+        createAccountPage.continueFromBigStep();
+        LOGGER.trace("Assert that goal page step has been completed");
+        Assert.assertFalse(createAccountPage.isBigStepPage(), "BigStep page could not be completed correctly.");
     }
 
     public void sleep(){

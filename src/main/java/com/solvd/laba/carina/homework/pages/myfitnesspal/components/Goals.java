@@ -6,6 +6,9 @@ import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.time.Duration;
 
 public class Goals extends AbstractUIObject {
     @FindBy(css = "button[value='lose_weight']")
@@ -96,5 +99,10 @@ public class Goals extends AbstractUIObject {
         }
 
         return value;
+    }
+
+    public boolean isPagePresent(){
+        waitUntil(ExpectedConditions.invisibilityOf(loseWeightButton), Duration.ofSeconds(3));
+        return loseWeightButton.isVisible(Duration.ofSeconds(1));
     }
 }

@@ -57,7 +57,7 @@ public class CreateAccountPage extends AbstractPage {
     }
 
     public boolean isEnterNamePage(){
-        return nameInputModal.isElementPresent();
+        return nameInputModal.isPagePresent();
     }
 
     public void enterGoals(Goal goal){
@@ -74,5 +74,17 @@ public class CreateAccountPage extends AbstractPage {
 
     public boolean isGoalClicked(Goal goal){
         return goalsModal.isGoalClicked(goal);
+    }
+
+    public boolean isGoalsPage(){
+        return goalsModal.isPagePresent();
+    }
+
+    public void continueFromBigStep(){
+        bigstep.clickContinueButton();
+    }
+
+    public boolean isBigStepPage(){
+        return bigstep.isPagePresent();
     }
 }
