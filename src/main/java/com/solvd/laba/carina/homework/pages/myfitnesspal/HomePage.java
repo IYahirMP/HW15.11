@@ -2,14 +2,13 @@ package com.solvd.laba.carina.homework.pages.myfitnesspal;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 
-public class Home extends AbstractPage {
+public class HomePage extends AbstractPage {
 
     @FindBy(xpath = "//a[contains(@class, 'css-le7uux')]")
     private ExtendedWebElement signUpButton;
@@ -17,16 +16,17 @@ public class Home extends AbstractPage {
     @FindBy(xpath = "//iframe[contains(@title, 'SP Consent')]")
     private ExtendedWebElement cookiesIFrame;
 
-    public Home(WebDriver driver) {
+    public HomePage(WebDriver driver) {
         super(driver);
         setPageAbsoluteURL("https://www.myfitnesspal.com/");
         waitUntil(ExpectedConditions.presenceOfElementLocated(cookiesIFrame.getBy()), Duration.ofSeconds(10));
         waitForJSToLoad();
     }
 
-    public void clickSignUpButton() {
+    public CreateAccountPage clickSignUpButton() {
         signUpButton.scrollTo();
         signUpButton.click();
+        return new CreateAccountPage(getDriver());
     }
 
     public boolean checkCookiesModal(){
