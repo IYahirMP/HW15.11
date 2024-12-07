@@ -113,11 +113,21 @@ public class MyFitnessPalTest implements IAbstractTest {
 
         LOGGER.trace("Assert that weight loss barriers page step has been completed");
         Assert.assertFalse(createAccountPage.isWeightLossBarriersPage(), "Weight loss barriers page could not be completed correctly.");
+
+        confirmWeightChange(createAccountPage);
     }
 
     public void processWeightGainGoal(Account account, CreateAccountPage createAccountPage){}
 
     public void processWeightMaintainGoal(Account account, CreateAccountPage createAccountPage){}
+
+    public void confirmWeightChange(CreateAccountPage createAccountPage){
+        LOGGER.trace("Attempting to continue from weight change confirmation dialogue");
+        createAccountPage.continueFromWeightChangeConfirmation();
+
+        LOGGER.trace("Assert that weight change confirmation dialogue has been completed");
+        Assert.assertFalse(createAccountPage.isWeightChangeConfirmationPage(), "Weight change confirmation dialogue could not be completed correctly.");
+    }
 
     public void processGainMuscleGoal(Account account, CreateAccountPage createAccountPage){}
 

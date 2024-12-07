@@ -15,19 +15,19 @@ public class CreateAccountPage extends AbstractPage {
     @FindBy(css = " main:has(span[aria-valuenow=\"8\"])")
     InputName nameInputModal;
 
-    //CHANGE THIS
     @FindBy(css = "main:has(span[aria-valuenow=\"15\"])")
     Goals goalsModal;
 
-        @FindBy(xpath = " //a[@href=\"/account/create/goals\"]/../../..")
+    @FindBy(xpath = " //a[@href=\"/account/create/goals\"]/../../..")
     BigStep bigstep;
 
     @FindBy(xpath = "//button[contains(@value, 'lack_of_time')]/../../../..")
     BarriersLose barriersLose;
 
+    @FindBy(xpath = "//a[contains(@href, '/account/create/goals/')]/../..")
+    WeightChangeConfirmation weightChangeConfirmation;
 
 
-    //CHANGE THIS
 
 
     public CreateAccountPage(WebDriver driver) {
@@ -93,12 +93,12 @@ public class CreateAccountPage extends AbstractPage {
     public void enterWeightLossBarriers(WeightLossBarrier barrier){
         switch(barrier){
             case LACK_OF_TIME: barriersLose.lackOfTimeButton(); break;
-            case REGIME_HARD_TO_FOLLOW: barriersLose.hardRegimenButton();
-            case DID_NOT_ENJOY_FOOD: barriersLose.dietLacksVarietyButton();
-            case DIFFICULT_TO_CHOOSE_FOOD: barriersLose.foodChoiceStressButton();
-            case SOCIAL_EATING_EVENTS: barriersLose.holidaysVacationEventsButton();
-            case FOOD_CRAVINGS: barriersLose.foodCravingsButton();
-            case LACK_OF_PROGRESS: barriersLose.lackOfProgressButton();
+            case REGIME_HARD_TO_FOLLOW: barriersLose.hardRegimenButton(); break;
+            case DID_NOT_ENJOY_FOOD: barriersLose.dietLacksVarietyButton(); break;
+            case DIFFICULT_TO_CHOOSE_FOOD: barriersLose.foodChoiceStressButton(); break;
+            case SOCIAL_EATING_EVENTS: barriersLose.holidaysVacationEventsButton(); break;
+            case FOOD_CRAVINGS: barriersLose.foodCravingsButton(); break;
+            case LACK_OF_PROGRESS: barriersLose.lackOfProgressButton(); break;
         }
     }
 
@@ -112,5 +112,13 @@ public class CreateAccountPage extends AbstractPage {
 
     public boolean isWeightLossBarriersPage(){
         return barriersLose.isPageOpen();
+    }
+
+    public void continueFromWeightChangeConfirmation(){
+        weightChangeConfirmation.clickNextButton();
+    }
+
+    public boolean isWeightChangeConfirmationPage(){
+        return weightChangeConfirmation.isPageOpen();
     }
 }
