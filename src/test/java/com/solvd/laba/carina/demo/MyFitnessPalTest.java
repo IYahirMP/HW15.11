@@ -2,9 +2,7 @@ package com.solvd.laba.carina.demo;
 
 import com.solvd.laba.carina.homework.pages.myfitnesspal.HomePage;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.CreateAccountPage;
-import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.Account;
-import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.Goal;
-import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.WeightLossBarrier;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.*;
 import com.zebrunner.agent.core.annotation.TestLabel;
 import com.zebrunner.carina.core.IAbstractTest;
 import com.zebrunner.carina.core.registrar.tag.Priority;
@@ -31,10 +29,21 @@ public class MyFitnessPalTest implements IAbstractTest {
         return new Object[][] {
             {
                 new Account("Ivan")
-                        //.addGoal(Goal.GAIN_MUSCLE)
-                        //.addGoal(Goal.MODIFY_DIET)
                         .addGoal(Goal.LOSE_WEIGHT)
-                        .addWeightLossBarrier(WeightLossBarrier.FOOD_CRAVINGS)
+                        .addGoalOption(Goal.LOSE_WEIGHT, WeightLossBarrier.FOOD_CRAVINGS)
+                        .addGoal(Goal.INCREASE_STEP_COUNT)
+                        .addGoalOption(Goal.INCREASE_STEP_COUNT, StepsRange.MORE_THAN_7000)
+                        .addGoal(Goal.MODIFY_DIET)
+                        .addGoalOption(Goal.MODIFY_DIET, NutritionFocus.FEWER_CARBS)
+                        .addGoalOption(Goal.MODIFY_DIET, NutritionFocus.MORE_FRUITS_AND_VEGETABLES)
+                        .addGoalOption(Goal.MODIFY_DIET, NutritionFocus.MORE_PROTEIN)
+            },
+                {
+                new Account("Yahir")
+                        .addGoal(Goal.MAINTAIN_WEIGHT)
+                        .addGoalOption(Goal.MAINTAIN_WEIGHT, WeightMaintenanceBarrier.COOKING_HARD)
+                        .addGoal(Goal.MANAGE_STRESS)
+                        .addGoalOption(Goal.MANAGE_STRESS, StressReliefActivity.NOTHING_HELPS)
             }
         };
     }
@@ -86,56 +95,39 @@ public class MyFitnessPalTest implements IAbstractTest {
         Assert.assertFalse(createAccountPage.isBigStepPage(), "BigStep page could not be completed correctly.");
 
 
-        List<Goal> orderedGoals = account.getGoals().stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
-        for (Goal goal : account.getGoals()) {
-            switch(goal){
-                case LOSE_WEIGHT: processWeightLossGoal(account, createAccountPage);
-                case MAINTAIN_WEIGHT: processWeightMaintainGoal(account, createAccountPage);
-                case GAIN_WEIGHT: processWeightGainGoal(account, createAccountPage);
-                case GAIN_MUSCLE:processGainMuscleGoal(account, createAccountPage);
-                case MODIFY_DIET:processModifyDietGoal(account, createAccountPage);
-                case MANAGE_STRESS:processManageStressGoal(account, createAccountPage);
-                case INCREASE_STEP_COUNT:processIncreaseStepCount(account, createAccountPage);
-            }
+        List<Goal> orderedGoals = account.getGoals().stream().sorted(Comparator.comparingInt(Enum::ordinal)).collect(Collectors.toList());
+        for (Goal goal : orderedGoals) {
+            processGoal(account, createAccountPage, goal);
         }
     }
 
-    public void processWeightLossGoal(Account account, CreateAccountPage createAccountPage){
-        LOGGER.trace("Attempts to submit weight loss barriers");
-        for (WeightLossBarrier barrier : account.getWeightLossBarriers()) {
-            createAccountPage.enterWeightLossBarriers(barrier);
-            Assert.assertTrue(createAccountPage.isWeightLossBarrierClicked(barrier));
+    public void processGoal(Account account, CreateAccountPage createAccountPage, Goal goal){
+        LOGGER.trace("Attempts to submit {}", goal.name());
+        for (ModalOption option : account.getCollectionByGoal(goal)) {
+            createAccountPage.enterGoalOption(option);
+            Assert.assertTrue(createAccountPage.isGoalClicked(option));
         }
 
-        if (account.getWeightLossBarriers().size() < 7){
-            createAccountPage.continueFromWeightLossBarriers();
+        // INCREASE_STEP COUNT is an exceptional case
+        // Where selecting at least one value triggers redirection to next page
+        if (account.getWeightLossBarriers().size() < goal.getOptions() && goal != Goal.INCREASE_STEP_COUNT){
+            createAccountPage.continueFromGoalPage();
         }
 
-        LOGGER.trace("Assert that weight loss barriers page step has been completed");
-        Assert.assertFalse(createAccountPage.isWeightLossBarriersPage(), "Weight loss barriers page could not be completed correctly.");
+        LOGGER.trace("Assert that {} barriers page step has been completed", goal.name());
+        Assert.assertFalse(createAccountPage.isAnyGoalPage(), String.format("%s page could not be completed correctly.", goal.name()));
 
-        confirmWeightChange(createAccountPage);
+        confirmOptions(createAccountPage, goal);
     }
 
-    public void processWeightGainGoal(Account account, CreateAccountPage createAccountPage){}
+    public void confirmOptions(CreateAccountPage createAccountPage, Goal goal){
+        LOGGER.trace("Attempting to continue from {} confirmation dialogue", goal.name());
+        createAccountPage.continueFromGoalConfirmationPage();
 
-    public void processWeightMaintainGoal(Account account, CreateAccountPage createAccountPage){}
-
-    public void confirmWeightChange(CreateAccountPage createAccountPage){
-        LOGGER.trace("Attempting to continue from weight change confirmation dialogue");
-        createAccountPage.continueFromWeightChangeConfirmation();
-
-        LOGGER.trace("Assert that weight change confirmation dialogue has been completed");
-        Assert.assertFalse(createAccountPage.isWeightChangeConfirmationPage(), "Weight change confirmation dialogue could not be completed correctly.");
+        LOGGER.trace("Assert that {} confirmation dialogue has been completed", goal.name());
+        Assert.assertFalse(createAccountPage.isGoalConfirmationPage(),
+                String.format("%s affirmation dialogue could not be completed correctly.", goal.name()));
     }
-
-    public void processGainMuscleGoal(Account account, CreateAccountPage createAccountPage){}
-
-    public void processModifyDietGoal(Account account, CreateAccountPage createAccountPage){}
-
-    public void processManageStressGoal(Account account, CreateAccountPage createAccountPage){}
-
-    public void processIncreaseStepCount(Account account, CreateAccountPage createAccountPage){}
 
     public void sleep(){
         try{

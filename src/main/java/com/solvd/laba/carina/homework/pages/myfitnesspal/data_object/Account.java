@@ -4,11 +4,18 @@ import org.apache.commons.math3.optimization.Weight;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Account {
     private String firstName;
     private List<Goal> goals = new ArrayList<Goal>();
-    private List<WeightLossBarrier> weightLossBarriers = new ArrayList<>();
+    private List<ModalOption> weightLossBarriers = new ArrayList<>();
+    private List<ModalOption> weightMaintenanceGoals = new ArrayList<>();
+    private List<ModalOption> weightGainReasons = new ArrayList<>();
+    private List<ModalOption> gainMuscleGoals = new ArrayList<>();
+    private List<ModalOption> nutritionFocusGoals = new ArrayList<>();
+    private List<ModalOption> stepsRangeGoals = new ArrayList<>();
+    private List<ModalOption> stressReliefGoals = new ArrayList<>();
 
     public Account(){}
 
@@ -42,15 +49,15 @@ public class Account {
         return this;
     }
 
-    public List<WeightLossBarrier> getWeightLossBarriers() {
+    public List<ModalOption> getWeightLossBarriers() {
         return weightLossBarriers;
     }
 
-    public void setWeightLossBarriers(List<WeightLossBarrier> weightLossBarriers) {
+    public void setWeightLossBarriers(List<ModalOption> weightLossBarriers) {
         this.weightLossBarriers = weightLossBarriers;
     }
 
-    public Account addWeightLossBarrier(WeightLossBarrier barrier) {
+    /*public Account addWeightLossBarrier(WeightLossBarrier barrier) {
         if (weightLossBarriers.size() >= 7){
             throw new IllegalArgumentException("All goals are already selected.");
         }
@@ -61,6 +68,38 @@ public class Account {
 
         weightLossBarriers.add(barrier);
         return this;
+    }*/
+
+    public Account addGoalOption(Goal goal, ModalOption option){
+        List<ModalOption> optionsList = new ArrayList<>();
+        switch(goal){
+            case LOSE_WEIGHT: optionsList = weightLossBarriers; break;
+            case GAIN_MUSCLE: optionsList = gainMuscleGoals; break;
+            case GAIN_WEIGHT: optionsList = weightGainReasons; break;
+            case INCREASE_STEP_COUNT: optionsList = stepsRangeGoals; break;
+            case MAINTAIN_WEIGHT: optionsList = weightMaintenanceGoals; break;
+            case MANAGE_STRESS: optionsList = stressReliefGoals; break;
+            case MODIFY_DIET: optionsList= nutritionFocusGoals; break;
+        }
+
+        if (optionsList.size() >= goal.getOptions()){
+            throw new IllegalArgumentException("All goals are already selected.");
+        }
+
+        if (optionsList.contains(option)) {
+            throw new RuntimeException("Option already exists");
+        }
+
+        if (goal == Goal.INCREASE_STEP_COUNT && !optionsList.isEmpty()){
+            throw new RuntimeException("Only one increase step count option can be selected.");
+        }
+
+        optionsList.add(option);
+        return this;
+    }
+
+    private List<ModalOption> toList(List<? extends ModalOption> options){
+        return options.stream().map((a) -> (ModalOption) a).collect(Collectors.toList());
     }
 
     public String getFirstName() {
@@ -69,5 +108,20 @@ public class Account {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public List<ModalOption> getCollectionByGoal(Goal goal) {
+        List<ModalOption> optionsList = new ArrayList<>();
+        switch(goal){
+            case LOSE_WEIGHT: optionsList = weightLossBarriers; break;
+            case GAIN_MUSCLE: optionsList = gainMuscleGoals; break;
+            case GAIN_WEIGHT: optionsList = weightGainReasons; break;
+            case INCREASE_STEP_COUNT: optionsList = stepsRangeGoals; break;
+            case MAINTAIN_WEIGHT: optionsList = weightMaintenanceGoals; break;
+            case MANAGE_STRESS: optionsList = stressReliefGoals; break;
+            case MODIFY_DIET: optionsList= nutritionFocusGoals; break;
+        }
+
+        return optionsList;
     }
 }

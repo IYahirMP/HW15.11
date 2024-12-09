@@ -1,33 +1,26 @@
 package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public enum Goal {
-    LOSE_WEIGHT("lose_weight"),
-    MAINTAIN_WEIGHT("maintain_weight"),
-    GAIN_WEIGHT("gain_weight"),
-    GAIN_MUSCLE("gain_muscle"),
-    MODIFY_DIET("modify_diet"),
-    MANAGE_STRESS("manage_stress"),
-    INCREASE_STEP_COUNT("increase_step_count");
+public enum Goal implements ModalOption{
+    LOSE_WEIGHT("lose_weight", 7),
+    MAINTAIN_WEIGHT("maintain_weight", WeightMaintenanceBarrier.values().length),
+    GAIN_WEIGHT("gain_weight", WeightGainReason.values().length),
+    GAIN_MUSCLE("gain_muscle", GainMuscleGoal.values().length),
+    MODIFY_DIET("modify_diet", NutritionFocus.values().length),
+    MANAGE_STRESS("manage_stress", StressReliefActivity.values().length),
+    INCREASE_STEP_COUNT("increase_step_count", StepsRange.values().length);
 
     private final String text;
+    private final int options;
 
-    Goal(String text) {
+    Goal(String text, int options) {
         this.text = text;
+        this.options = options;
     }
 
     public final String getText() {
         return text;
     }
+    public final int getOptions() { return options; }
 
-    public static List<Goal> getOppositeGoals(){
-        List<Goal> oppositeGoals = new ArrayList<>();
-        oppositeGoals.add(LOSE_WEIGHT);
-        oppositeGoals.add(MAINTAIN_WEIGHT);
-        oppositeGoals.add(GAIN_WEIGHT);
 
-        return oppositeGoals;
-    }
 }

@@ -3,7 +3,7 @@ package com.solvd.laba.carina.homework.pages.myfitnesspal;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.components.*;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.Account;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.Goal;
-import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.WeightLossBarrier;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.ModalOption;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -25,9 +25,7 @@ public class CreateAccountPage extends AbstractPage {
     BarriersLose barriersLose;
 
     @FindBy(xpath = "//a[contains(@href, '/account/create/goals/')]/../..")
-    WeightChangeConfirmation weightChangeConfirmation;
-
-
+    GoalConfirmation weightChangeConfirmation;
 
 
     public CreateAccountPage(WebDriver driver) {
@@ -59,19 +57,11 @@ public class CreateAccountPage extends AbstractPage {
     }
 
     public void enterGoals(Goal goal){
-        switch(goal){
-            case LOSE_WEIGHT: goalsModal.clickLoseWeightButton(); break;
-            case MAINTAIN_WEIGHT: goalsModal.clickMaintainWeightButton(); break;
-            case GAIN_WEIGHT: goalsModal.clickGainWeightButton(); break;
-            case GAIN_MUSCLE: goalsModal.clickGainMuscleButton(); break;
-            case MODIFY_DIET: goalsModal.clickModifyDietButton(); break;
-            case MANAGE_STRESS: goalsModal.clickManageStressButton(); break;
-            case INCREASE_STEP_COUNT:goalsModal.clickIncreaseStepCountButton(); break;
-        }
+        goalsModal.clickOptionButton(goal);
     }
 
     public boolean isGoalClicked(Goal goal){
-        return goalsModal.isGoalClicked(goal);
+        return goalsModal.isOptionClicked(goal);
     }
 
     public void continueFromGoals(){
@@ -90,35 +80,65 @@ public class CreateAccountPage extends AbstractPage {
         return bigstep.isPagePresent();
     }
 
-    public void enterWeightLossBarriers(WeightLossBarrier barrier){
-        switch(barrier){
-            case LACK_OF_TIME: barriersLose.lackOfTimeButton(); break;
-            case REGIME_HARD_TO_FOLLOW: barriersLose.hardRegimenButton(); break;
-            case DID_NOT_ENJOY_FOOD: barriersLose.dietLacksVarietyButton(); break;
-            case DIFFICULT_TO_CHOOSE_FOOD: barriersLose.foodChoiceStressButton(); break;
-            case SOCIAL_EATING_EVENTS: barriersLose.holidaysVacationEventsButton(); break;
-            case FOOD_CRAVINGS: barriersLose.foodCravingsButton(); break;
-            case LACK_OF_PROGRESS: barriersLose.lackOfProgressButton(); break;
-        }
+    /**
+     * Returns true if current page has any buttons with value attribute.
+     * @return True if option buttons are detected in page
+     */
+    public boolean isAnyGoalPage(){
+        return new OptionModal(getDriver()).isModalPage();
     }
 
-    public boolean isWeightLossBarrierClicked(WeightLossBarrier barrier){
-        return barriersLose.isWeightLossBarrierClicked(barrier);
+    /**
+     * Acts as a proxy to OptionModal::clickOptionButton(ModalOption option)
+     * Creates a dynamic locator for passed ModalOption, then attempts to click said button.
+     * @param option The type of option to select
+     */
+    public void enterGoalOption(ModalOption option){
+        OptionModal optionModal = new OptionModal(getDriver());
+        optionModal.clickOptionButton(option);
+        waitForJSToLoad();
     }
 
-    public void continueFromWeightLossBarriers(){
-        barriersLose.clickSubmitButton();
+    /**
+     * Acts as a proxy for OptionModal::isOptionClicked.
+     * Creates a dynamic locator for passed ModalOption's button,
+     * then checks if [aria-pressed=true] is present.
+     * @param option The option that needs to be checked to have been clicked
+     * @return if Goal button has been clicked
+     */
+    public boolean isGoalClicked(ModalOption option){
+        OptionModal optionModal = new OptionModal(getDriver());
+        return optionModal.isOptionClicked(option);
     }
 
-    public boolean isWeightLossBarriersPage(){
-        return barriersLose.isPageOpen();
+    /**
+     * Acts as proxy for OptionModal::clickSubmitButton.
+     * Clicks submit button.
+     */
+    public void continueFromGoalPage(){
+        OptionModal optionModal = new OptionModal(getDriver());
+        optionModal.clickSubmitButton();
+        waitForJSToLoad();
     }
 
-    public void continueFromWeightChangeConfirmation(){
-        weightChangeConfirmation.clickNextButton();
+
+    // After every goal options there is an affirmation page with the same interactive elements.
+    // Following methods allow to maneuver from these pages.
+
+    /**
+     * Acts as a proxy for GoalConfirmation::isPageOpen.
+     * Checks if there is any button in the page.
+     * @return True if any button[value] elements are visible.
+     */
+    public boolean isGoalConfirmationPage(){
+        return new GoalConfirmation(getDriver()).isPageOpen();
     }
 
-    public boolean isWeightChangeConfirmationPage(){
-        return weightChangeConfirmation.isPageOpen();
+    /**
+     *
+     */
+    public void continueFromGoalConfirmationPage(){
+        new GoalConfirmation(getDriver()).clickNextButton();
+        waitForJSToLoad();
     }
 }
