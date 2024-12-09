@@ -7,13 +7,13 @@ import com.zebrunner.carina.core.IAbstractTest;
 import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
 import com.zebrunner.carina.core.registrar.tag.Priority;
 import com.zebrunner.carina.core.registrar.tag.TestPriority;
+import com.zebrunner.carina.utils.R;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 
 public class NetworkConfigurationToolTest implements IAbstractTest {
-
     @Test
     @MethodOwner(owner = "ivan")
     @TestPriority(Priority.P0)
@@ -24,9 +24,9 @@ public class NetworkConfigurationToolTest implements IAbstractTest {
         Assert.assertTrue(login.isPageOpened());
 
         // First assert. By default, TELMEX has to be the username
-        Assert.assertTrue(login.getEnteredUsername().equals("TELMEX"));
+        Assert.assertEquals(login.getEnteredUsername(), "TELMEX");
 
-        login.enterPassword("Halocer123*");
+        login.enterPassword(R.CONFIG.get("passw"));
         MainPage mainPage = login.clickLoginButton();
 
         mainPage.open();
