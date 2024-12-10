@@ -21,12 +21,8 @@ public class CreateAccountPage extends AbstractPage {
     @FindBy(xpath = " //a[@href=\"/account/create/goals\"]/../../..")
     BigStep bigstep;
 
-    @FindBy(xpath = "//button[contains(@value, 'lack_of_time')]/../../../..")
-    BarriersLose barriersLose;
-
-    @FindBy(xpath = "//a[contains(@href, '/account/create/goals/')]/../..")
-    GoalConfirmation weightChangeConfirmation;
-
+    @FindBy(xpath = "//input[@value='M']/../../../../../..")
+    PersonalData personalData;
 
     public CreateAccountPage(WebDriver driver) {
         super(driver);
@@ -140,5 +136,17 @@ public class CreateAccountPage extends AbstractPage {
     public void continueFromGoalConfirmationPage(){
         new GoalConfirmation(getDriver()).clickNextButton();
         waitForJSToLoad();
+    }
+
+    /**
+     *
+     */
+    public boolean enterPersonalData(Account account){
+        personalData.enterBirthDate(account);
+        personalData.enterCountry(account);
+        personalData.enterGender(account);
+        personalData.clickSubmitButton();
+
+        return personalData.isPagePresent();
     }
 }

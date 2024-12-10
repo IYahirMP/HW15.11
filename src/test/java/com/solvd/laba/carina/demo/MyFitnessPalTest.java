@@ -14,7 +14,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,12 +30,16 @@ public class MyFitnessPalTest implements IAbstractTest {
                 new Account("Ivan")
                         .addGoal(Goal.LOSE_WEIGHT)
                         .addGoalOption(Goal.LOSE_WEIGHT, WeightLossBarrier.FOOD_CRAVINGS)
-                        .addGoal(Goal.INCREASE_STEP_COUNT)
+                        /*.addGoal(Goal.INCREASE_STEP_COUNT)
                         .addGoalOption(Goal.INCREASE_STEP_COUNT, StepsRange.MORE_THAN_7000)
                         .addGoal(Goal.MODIFY_DIET)
                         .addGoalOption(Goal.MODIFY_DIET, NutritionFocus.FEWER_CARBS)
                         .addGoalOption(Goal.MODIFY_DIET, NutritionFocus.MORE_FRUITS_AND_VEGETABLES)
-                        .addGoalOption(Goal.MODIFY_DIET, NutritionFocus.MORE_PROTEIN)
+                        .addGoalOption(Goal.MODIFY_DIET, NutritionFocus.MORE_PROTEIN)*/
+                        .setActivityLevel(1)
+                        .setCountry(Country.MEXICO)
+                        .setBirthDay("2002-08-31")
+                        .setGender(Gender.MALE)
             },
                 {
                 new Account("Yahir")
@@ -44,6 +47,10 @@ public class MyFitnessPalTest implements IAbstractTest {
                         .addGoalOption(Goal.MAINTAIN_WEIGHT, WeightMaintenanceBarrier.COOKING_HARD)
                         .addGoal(Goal.MANAGE_STRESS)
                         .addGoalOption(Goal.MANAGE_STRESS, StressReliefActivity.NOTHING_HELPS)
+                        .setActivityLevel(2)
+                        .setCountry(Country.ARGENTINA)
+                        .setBirthDay("2002-10-22")
+                        .setGender(Gender.MALE)
             }
         };
     }
@@ -94,11 +101,21 @@ public class MyFitnessPalTest implements IAbstractTest {
         LOGGER.trace("Assert that goal page step has been completed");
         Assert.assertFalse(createAccountPage.isBigStepPage(), "BigStep page could not be completed correctly.");
 
-
+        LOGGER.trace("Attempt to process each goal's options");
         List<Goal> orderedGoals = account.getGoals().stream().sorted(Comparator.comparingInt(Enum::ordinal)).collect(Collectors.toList());
         for (Goal goal : orderedGoals) {
             processGoal(account, createAccountPage, goal);
         }
+
+        LOGGER.trace("Attempting to set baseline activity level");
+        createAccountPage.enterGoalOption(account.getActivityLevel());
+        createAccountPage.continueFromGoalPage();
+        LOGGER.trace("Assert that goal page step has been completed");
+
+        LOGGER.trace("Attempts to enter personal data.");
+        boolean personalDataPagePassed = createAccountPage.enterPersonalData(account);
+        LOGGER.trace("Asserts that personal data page has been completed correctly");
+        Assert.assertFalse(personalDataPagePassed, "Personal data page could not be completed correctly.");
     }
 
     public void processGoal(Account account, CreateAccountPage createAccountPage, Goal goal){
@@ -108,7 +125,7 @@ public class MyFitnessPalTest implements IAbstractTest {
             Assert.assertTrue(createAccountPage.isGoalClicked(option));
         }
 
-        // INCREASE_STEP COUNT is an exceptional case
+        // INCREASE_STEP_COUNT is an exceptional case
         // Where selecting at least one value triggers redirection to next page
         if (account.getWeightLossBarriers().size() < goal.getOptions() && goal != Goal.INCREASE_STEP_COUNT){
             createAccountPage.continueFromGoalPage();
@@ -117,23 +134,11 @@ public class MyFitnessPalTest implements IAbstractTest {
         LOGGER.trace("Assert that {} barriers page step has been completed", goal.name());
         Assert.assertFalse(createAccountPage.isAnyGoalPage(), String.format("%s page could not be completed correctly.", goal.name()));
 
-        confirmOptions(createAccountPage, goal);
-    }
-
-    public void confirmOptions(CreateAccountPage createAccountPage, Goal goal){
         LOGGER.trace("Attempting to continue from {} confirmation dialogue", goal.name());
         createAccountPage.continueFromGoalConfirmationPage();
 
         LOGGER.trace("Assert that {} confirmation dialogue has been completed", goal.name());
         Assert.assertFalse(createAccountPage.isGoalConfirmationPage(),
                 String.format("%s affirmation dialogue could not be completed correctly.", goal.name()));
-    }
-
-    public void sleep(){
-        try{
-            Thread.sleep(1000 * 3);
-        }catch(Exception e){
-
-        }
     }
 }

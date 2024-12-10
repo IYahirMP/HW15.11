@@ -2,11 +2,15 @@ package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
 
 import org.apache.commons.math3.optimization.Weight;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Account {
+    private static final int minimumActivityLevel = 1;
+    private static final int maximumActivityLevel = 10;
+
     private String firstName;
     private List<Goal> goals = new ArrayList<Goal>();
     private List<ModalOption> weightLossBarriers = new ArrayList<>();
@@ -16,6 +20,10 @@ public class Account {
     private List<ModalOption> nutritionFocusGoals = new ArrayList<>();
     private List<ModalOption> stepsRangeGoals = new ArrayList<>();
     private List<ModalOption> stressReliefGoals = new ArrayList<>();
+    private ActivityLevel activityLevel;
+    private Country country;
+    private LocalDate birthDay;
+    private Gender gender;
 
     public Account(){}
 
@@ -123,5 +131,50 @@ public class Account {
         }
 
         return optionsList;
+    }
+
+    public ActivityLevel getActivityLevel() {
+        return activityLevel;
+    }
+
+    public Account setActivityLevel(int activityLevel) {
+        if (activityLevel < minimumActivityLevel || activityLevel > maximumActivityLevel){
+            throw new IllegalArgumentException("Invalid activity level");
+        }
+
+        this.activityLevel = ActivityLevel.values()[activityLevel];
+        return this;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public Account setCountry(Country country) {
+        this.country = country;
+        return this;
+    }
+
+    public LocalDate getBirthDay() {
+        return birthDay;
+    }
+
+    public Account setBirthDay(LocalDate birthDay) {
+        this.birthDay = birthDay;
+        return this;
+    }
+
+    public Account setBirthDay(String birthDay) {
+        this.birthDay = LocalDate.parse(birthDay);
+        return this;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public Account setGender(Gender gender) {
+        this.gender = gender;
+        return this;
     }
 }
