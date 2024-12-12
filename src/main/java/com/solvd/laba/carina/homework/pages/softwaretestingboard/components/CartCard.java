@@ -1,13 +1,10 @@
-package com.solvd.laba.carina.homework.pages.softwaretestingboard;
+package com.solvd.laba.carina.homework.pages.softwaretestingboard.components;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
-import com.zebrunner.carina.webdriver.locator.Context;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 public class CartCard extends AbstractUIObject {
     /** Cart product name
