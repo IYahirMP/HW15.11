@@ -1,6 +1,8 @@
-package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
+package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal;
 
-public enum WeightMaintenanceBarrier implements ModalOption {
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.SelectableItem;
+
+public enum WeightMaintenanceBarrier implements SelectableItem {
     LACK_OF_TIME("lack_of_time_maintain"),
     REGIME_HARD_TO_FOLLOW("regimen_hard_maintain"),
     DIET_LACKS_VARIETY("diet_lacks_variety_maintain"),

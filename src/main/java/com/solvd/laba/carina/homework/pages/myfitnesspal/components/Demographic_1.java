@@ -1,8 +1,7 @@
 package com.solvd.laba.carina.homework.pages.myfitnesspal.components;
 
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.Account;
-import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.Country;
-import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.ModalOption;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics.Country;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.By;
@@ -12,11 +11,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class PersonalData extends AbstractUIObject {
+public class Demographic_1 extends AbstractUIObject {
     @FindBy(css="input[value='M']")
     ExtendedWebElement maleOption;
 
@@ -32,7 +29,7 @@ public class PersonalData extends AbstractUIObject {
     @FindBy(css = "button[type='submit']")
     ExtendedWebElement submitButton;
 
-    public PersonalData(WebDriver driver, SearchContext searchContext) {
+    public Demographic_1(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 

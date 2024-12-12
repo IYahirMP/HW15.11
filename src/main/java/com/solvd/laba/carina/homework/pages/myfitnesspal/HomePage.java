@@ -40,4 +40,11 @@ public class HomePage extends AbstractPage {
         cookies.acceptCookiesButton();
         getDriver().switchTo().defaultContent();
     }
+
+    public boolean processCookiesModal(){
+        if (checkCookiesModal()) {
+            clickAcceptCookiesButton();
+        }
+        return checkCookiesModal();
+    }
 }

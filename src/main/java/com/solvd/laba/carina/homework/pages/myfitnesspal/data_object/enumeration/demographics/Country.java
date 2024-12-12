@@ -1,4 +1,4 @@
-package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
+package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics;
 
 public enum Country {
     AFGHANISTAN(1),

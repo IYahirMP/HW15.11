@@ -1,6 +1,8 @@
-package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
+package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal;
 
-public enum StepsRange implements ModalOption {
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.SelectableItem;
+
+public enum StepsRange implements SelectableItem {
     LESS_THAN_1000("steps_now_1000_or_less"),
     BETWEEN_1000_AND_3000("steps_now_1000_to_3000"),
     BETWEEN_3000_AND_7000("steps_now_3000_to_7000"),

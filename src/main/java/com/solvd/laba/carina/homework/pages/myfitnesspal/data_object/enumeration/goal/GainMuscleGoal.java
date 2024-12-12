@@ -1,6 +1,8 @@
-package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
+package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal;
 
-public enum GainMuscleGoal implements ModalOption {
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.SelectableItem;
+
+public enum GainMuscleGoal implements SelectableItem {
     TONE_UP("gain_muscle_result_tone_up"),
     BULK_UP("gain_muscle_result_bulk_up"),
     GET_STRONG("gain_muscle_result_get_strong");

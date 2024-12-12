@@ -1,7 +1,9 @@
-package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
+package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal;
 
 
-public enum WeightLossBarrier implements ModalOption{
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.SelectableItem;
+
+public enum WeightLossBarrier implements SelectableItem {
     LACK_OF_TIME("lack_of_time_lose"),
     REGIME_HARD_TO_FOLLOW("regimen_hard_lose"),
     DID_NOT_ENJOY_FOOD("diet_lacks_variety_lose"),

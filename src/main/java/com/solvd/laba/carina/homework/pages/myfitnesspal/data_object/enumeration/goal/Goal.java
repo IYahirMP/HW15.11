@@ -1,6 +1,8 @@
-package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
+package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal;
 
-public enum Goal implements ModalOption{
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.SelectableItem;
+
+public enum Goal implements SelectableItem {
     LOSE_WEIGHT("lose_weight", 7),
     MAINTAIN_WEIGHT("maintain_weight", WeightMaintenanceBarrier.values().length),
     GAIN_WEIGHT("gain_weight", WeightGainReason.values().length),

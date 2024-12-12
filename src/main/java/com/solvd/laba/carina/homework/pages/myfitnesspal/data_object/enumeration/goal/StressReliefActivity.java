@@ -1,6 +1,8 @@
-package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
+package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal;
 
-public enum StressReliefActivity implements ModalOption {
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.SelectableItem;
+
+public enum StressReliefActivity implements SelectableItem {
     WALK("feel_better_after_walk"),
     RUN("feel_better_after_run"),
     STRENGTH_WORKOUT("feel_better_after_strength"),

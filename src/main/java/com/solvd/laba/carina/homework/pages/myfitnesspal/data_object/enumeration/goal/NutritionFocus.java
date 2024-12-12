@@ -1,6 +1,8 @@
-package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
+package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal;
 
-public enum NutritionFocus implements ModalOption {
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.SelectableItem;
+
+public enum NutritionFocus implements SelectableItem {
     TRACK_MACROS("modify_focus_track_macros"),
     EAT_VEGAN("modify_focus_vegan"),
     EAT_VEGETARIAN("modify_focus_vegetarian"),

@@ -1,9 +1,16 @@
 package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
 
-import org.apache.commons.math3.optimization.Weight;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.ActivityLevel;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics.Country;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics.Gender;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics.HeightUnitSelector;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal.Goal;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal.WeightGainWeeklyGoal;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal.WeightLossWeeklyGoal;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,17 +20,22 @@ public class Account {
 
     private String firstName;
     private List<Goal> goals = new ArrayList<Goal>();
-    private List<ModalOption> weightLossBarriers = new ArrayList<>();
-    private List<ModalOption> weightMaintenanceGoals = new ArrayList<>();
-    private List<ModalOption> weightGainReasons = new ArrayList<>();
-    private List<ModalOption> gainMuscleGoals = new ArrayList<>();
-    private List<ModalOption> nutritionFocusGoals = new ArrayList<>();
-    private List<ModalOption> stepsRangeGoals = new ArrayList<>();
-    private List<ModalOption> stressReliefGoals = new ArrayList<>();
+    private List<SelectableItem> weightLossBarriers = new ArrayList<>();
+    private List<SelectableItem> weightMaintenanceGoals = new ArrayList<>();
+    private List<SelectableItem> weightGainReasons = new ArrayList<>();
+    private List<SelectableItem> gainMuscleGoals = new ArrayList<>();
+    private List<SelectableItem> nutritionFocusGoals = new ArrayList<>();
+    private List<SelectableItem> stepsRangeGoals = new ArrayList<>();
+    private List<SelectableItem> stressReliefGoals = new ArrayList<>();
     private ActivityLevel activityLevel;
     private Country country;
     private LocalDate birthDay;
     private Gender gender;
+    private Weight weight = new Weight(0.0);
+    private Weight goalWeight = new Weight(0.0);
+    private Height height = new Height(0.0);
+    private WeightLossWeeklyGoal weightLossWeeklyGoal;
+    private WeightGainWeeklyGoal weightGainWeeklyGoal;
 
     public Account(){}
 
@@ -57,11 +69,11 @@ public class Account {
         return this;
     }
 
-    public List<ModalOption> getWeightLossBarriers() {
+    public List<SelectableItem> getWeightLossBarriers() {
         return weightLossBarriers;
     }
 
-    public void setWeightLossBarriers(List<ModalOption> weightLossBarriers) {
+    public void setWeightLossBarriers(List<SelectableItem> weightLossBarriers) {
         this.weightLossBarriers = weightLossBarriers;
     }
 
@@ -78,8 +90,8 @@ public class Account {
         return this;
     }*/
 
-    public Account addGoalOption(Goal goal, ModalOption option){
-        List<ModalOption> optionsList = new ArrayList<>();
+    public Account addGoalOption(Goal goal, SelectableItem option){
+        List<SelectableItem> optionsList = new ArrayList<>();
         switch(goal){
             case LOSE_WEIGHT: optionsList = weightLossBarriers; break;
             case GAIN_MUSCLE: optionsList = gainMuscleGoals; break;
@@ -106,8 +118,8 @@ public class Account {
         return this;
     }
 
-    private List<ModalOption> toList(List<? extends ModalOption> options){
-        return options.stream().map((a) -> (ModalOption) a).collect(Collectors.toList());
+    private List<SelectableItem> toList(List<? extends SelectableItem> options){
+        return options.stream().map((a) -> (SelectableItem) a).collect(Collectors.toList());
     }
 
     public String getFirstName() {
@@ -118,8 +130,8 @@ public class Account {
         this.firstName = firstName;
     }
 
-    public List<ModalOption> getCollectionByGoal(Goal goal) {
-        List<ModalOption> optionsList = new ArrayList<>();
+    public List<SelectableItem> getCollectionByGoal(Goal goal) {
+        List<SelectableItem> optionsList = new ArrayList<>();
         switch(goal){
             case LOSE_WEIGHT: optionsList = weightLossBarriers; break;
             case GAIN_MUSCLE: optionsList = gainMuscleGoals; break;
@@ -175,6 +187,64 @@ public class Account {
 
     public Account setGender(Gender gender) {
         this.gender = gender;
+        return this;
+    }
+
+    public Account setHeightCentimeters(double centimeters){
+        height.setCentimeters(centimeters);
+        return this;
+    }
+
+    public Height getHeight(){
+        return height;
+    }
+
+    public Account setWeightKilogram(double kilos){
+        weight.setKilograms(kilos);
+        return this;
+    }
+
+    public Weight getWeight(){
+        return weight;
+    }
+
+    public Account setGoalWeight(double goalKilos){
+        double currentKilos = weight.getKilograms();
+        if (currentKilos < 1){
+            throw new RuntimeException("Current weight hasn't been set");
+        }
+
+        if (goals.contains(Goal.LOSE_WEIGHT) && goalKilos >= currentKilos){
+            throw new RuntimeException("Goal weight contradicts LOSE_WEIGHT goal");
+        }
+
+        if (goals.contains(Goal.GAIN_WEIGHT) && goalKilos <= currentKilos){
+            throw new RuntimeException("Goal weight contradicts GAIN_WEIGHT goal");
+        }
+
+        goalWeight.setKilograms(goalKilos);
+        return this;
+    }
+
+    public Weight getGoalWeight(){
+        return goalWeight;
+    }
+
+    public WeightLossWeeklyGoal getWeightLossWeeklyGoal() {
+        return weightLossWeeklyGoal;
+    }
+
+    public Account setWeightLossWeeklyGoal(WeightLossWeeklyGoal weightLossWeeklyGoal) {
+        this.weightLossWeeklyGoal = weightLossWeeklyGoal;
+        return this;
+    }
+
+    public WeightGainWeeklyGoal getWeightGainWeeklyGoal() {
+        return weightGainWeeklyGoal;
+    }
+
+    public Account setWeightGainWeeklyGoal(WeightGainWeeklyGoal weightGainWeeklyGoal) {
+        this.weightGainWeeklyGoal = weightGainWeeklyGoal;
         return this;
     }
 }

@@ -1,6 +1,8 @@
-package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
+package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal;
 
-public enum WeightGainReason implements ModalOption {
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.SelectableItem;
+
+public enum WeightGainReason implements SelectableItem {
     COMPETITIVE_SPORT("competitive_sport"),
     MUSCLE_FOR_FITNESS("muscle_for_fitness"),
     UNDERWEIGHT("underweight"),

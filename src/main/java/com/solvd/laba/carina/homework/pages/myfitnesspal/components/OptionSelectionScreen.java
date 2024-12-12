@@ -1,7 +1,6 @@
 package com.solvd.laba.carina.homework.pages.myfitnesspal.components;
 
-import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.ModalOption;
-import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.WeightLossBarrier;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.SelectableItem;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.By;
@@ -12,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 
-public class OptionModal extends AbstractUIObject {
+public class OptionSelectionScreen extends AbstractUIObject {
     @FindBy(css = "div>button[type='submit']")
     ExtendedWebElement submitButton;
 
@@ -20,11 +19,11 @@ public class OptionModal extends AbstractUIObject {
     ExtendedWebElement someButton;
 
 
-    public OptionModal(WebDriver driver) {
+    public OptionSelectionScreen(WebDriver driver) {
         super(driver);
     }
 
-    public OptionModal(WebDriver driver, SearchContext searchContext) {
+    public OptionSelectionScreen(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
@@ -33,7 +32,7 @@ public class OptionModal extends AbstractUIObject {
         submitButton.click();
     }
 
-    public ExtendedWebElement getDynamicButton(ModalOption option){
+    public ExtendedWebElement getDynamicButton(SelectableItem option){
         return new ExtendedWebElement(
                 By.cssSelector(String.format("button[value='%s']", option.getText())),
                 option.getText(),
@@ -41,12 +40,12 @@ public class OptionModal extends AbstractUIObject {
                 getSearchContext());
     }
 
-    public void clickOptionButton(ModalOption option){
+    public void clickOptionButton(SelectableItem option){
         ExtendedWebElement barrierButton = getDynamicButton(option);
         barrierButton.clickByJs();
     }
 
-    public boolean isOptionClicked(ModalOption option){
+    public boolean isOptionClicked(SelectableItem option){
         ExtendedWebElement barrierButton = getDynamicButton(option);
         return barrierButton
                 .getAttribute("aria-pressed")

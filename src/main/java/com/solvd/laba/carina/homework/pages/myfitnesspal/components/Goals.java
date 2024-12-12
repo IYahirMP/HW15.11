@@ -1,6 +1,6 @@
 package com.solvd.laba.carina.homework.pages.myfitnesspal.components;
 
-import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.Goal;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal.Goal;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 
-public class Goals extends OptionModal {
+public class Goals extends OptionSelectionScreen {
 
     public Goals(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);

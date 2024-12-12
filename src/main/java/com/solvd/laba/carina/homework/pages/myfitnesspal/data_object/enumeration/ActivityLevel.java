@@ -1,6 +1,8 @@
-package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
+package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration;
 
-public enum ActivityLevel implements ModalOption {
+import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.SelectableItem;
+
+public enum ActivityLevel implements SelectableItem {
     NOT_VERY_ACTIVE("1", "Not Very Active", "Spend most of the day sitting (e.g., bank teller, desk job)"),
     LIGHTLY_ACTIVE("2", "Lightly Active", "Spend a good part of the day on your feet (e.g., teacher, salesperson)"),
     ACTIVE("3", "Active", "Spend a good part of the day doing some physical activity (e.g., food server, postal carrier)"),
