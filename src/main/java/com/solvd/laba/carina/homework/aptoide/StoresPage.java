@@ -1,7 +1,9 @@
 package com.solvd.laba.carina.homework.aptoide;
 
+import com.solvd.laba.carina.homework.aptoide.objects.StaticElement;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -9,13 +11,23 @@ public class StoresPage extends BaseFrame{
     @FindBy(id="cm.aptoide.pt:id/store_tab_follow_store_layout")
     private ExtendedWebElement followStoreButton;
 
+
+
     public StoresPage(WebDriver driver) {
         super(driver);
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
         setUiLoadedMarker(followStoreButton);
     }
 
-    public boolean isOpened(){
-        return isPageOpened();
+    public ExtendedWebElement getStaticElement(StaticElement element){
+        return new ExtendedWebElement(
+                By.xpath(element.getXpath()),
+                element.name(),
+                getDriver(),
+                mainContent.getElement());
+    }
+
+    public String getStaticElementText(StaticElement element){
+        return getStaticElement(element).getText();
     }
 }

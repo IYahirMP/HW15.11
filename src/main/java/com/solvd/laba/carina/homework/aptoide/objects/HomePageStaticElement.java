@@ -1,6 +1,6 @@
 package com.solvd.laba.carina.homework.aptoide.objects;
 
-public enum HomePageStaticElement {
+public enum HomePageStaticElement implements StaticElement{
     GAMES_CHIP("cm.aptoide.pt:id/games_chip", "GAMES"),
     APPS_CHIP("cm.aptoide.pt:id/apps_chip", "APPS"),
     NEW_PACKAGE("cm.aptoide.pt:id/new_package_card", ""),
@@ -24,4 +24,7 @@ public enum HomePageStaticElement {
     public String getText() {
         return text;
     }
+
+    public String getXpath(){return "";}
+
 }
