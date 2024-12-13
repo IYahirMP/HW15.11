@@ -14,8 +14,4 @@ public class AppsPage extends BaseFrame{
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
         setUiLoadedMarker(appsRecyclerView);
     }
-
-    public boolean isOpened(){
-        return isPageOpened();
-    }
 }

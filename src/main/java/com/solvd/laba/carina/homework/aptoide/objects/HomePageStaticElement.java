@@ -7,8 +7,7 @@ public enum HomePageStaticElement implements StaticElement{
     EDITORS_CHOICE_TITLE("cm.aptoide.pt:id/bundle_title", "Editors' Choice"),
     EDITORS_CHOICE_MORE("cm.aptoide.pt:id/bundle_more", "MORE"),
     EDITORS_CHOICE_FEATURED("cm.aptoide.pt:id/featured_graphic_list", ""),
-    EDITORIAL_CARD("cm.aptoide.pt:id/editorial_card", ""),
-    EDITORIAL_CARD_CURATION("cm.aptoide.pt:id/curation_type_bubble_text", "GAME OF THE WEEK");
+    EDITORIAL_CARD("cm.aptoide.pt:id/editorial_card", "");
 
     private String id;
     private String text;

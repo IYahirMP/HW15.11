@@ -1,7 +1,7 @@
 package com.solvd.laba.carina.homework.aptoide.objects;
 
 public enum HomePageAppsElements implements StaticElement{
-    TOP_APPS("cm.aptoide.pt:id/bundle_title", "GAMES"),
+    TOP_APPS("cm.aptoide.pt:id/bundle_title", "Top Apps"),
     TOP_APPS_LIST("cm.aptoide.pt:id/top_list", ""),
     TOP_MORE("cm.aptoide.pt:id/bundle_more", "MORE");
 

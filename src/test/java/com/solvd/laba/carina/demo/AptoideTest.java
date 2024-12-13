@@ -5,13 +5,19 @@ import com.solvd.laba.carina.homework.aptoide.objects.*;
 import com.zebrunner.carina.core.IAbstractTest;
 import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
+import org.openqa.selenium.NoSuchElementException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
-import java.util.ArrayList;
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 public class AptoideTest implements IAbstractTest, IMobileUtils {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Test(testName = "testNavigationTabs")
     @MethodOwner(owner = "Ivan")
@@ -33,6 +39,8 @@ public class AptoideTest implements IAbstractTest, IMobileUtils {
 
         AppsPage appsPage = storesPage.goToAppsPage();
         appsPage.assertPageOpened(3);
+
+        getDriver().quit();
     }
 
     @Test(testName = "testSearchFunction")
@@ -66,10 +74,12 @@ public class AptoideTest implements IAbstractTest, IMobileUtils {
         homePage.assertPageOpened(3);
 
         for (HomePageStaticElement element: HomePageStaticElement.values()){
+            LOGGER.info("Testing for element {} to appear.", element.name());
             Assert.assertTrue(homePage.isElementVisible(element), String.format("Element %s could not be found.", element.name()));
 
             String elActualText = homePage.getStaticElementText(element);
-            Assert.assertEquals(elActualText, element.getText(), String.format("Element text is %s when it should be %s.", elActualText, element.getText()));
+            Assert.assertEquals(elActualText, element.getText(), String.format("Element text for %s is %s when it should be %s.", element.name() , elActualText, element.getText()));
+            LOGGER.info("Text for element {} matches the UI.", element.name());
         }
 
         homePage.showGames();
@@ -87,9 +97,11 @@ public class AptoideTest implements IAbstractTest, IMobileUtils {
         }
 
         for(StaticElement element: list){
+            LOGGER.info("Testing for element {} to appear.", element.name());
             Assert.assertTrue(homePage.isCategoryElementVisible(element), String.format("Element %s could not be found.", element.name()));
             String elActualText = homePage.getCategoryElementText(element);
-            Assert.assertEquals(elActualText, element.getText(), String.format("Element text is %s when it should be %s.", elActualText, element.getText()));
+            Assert.assertEquals(elActualText, element.getText(), String.format("Element text for %s is %s when it should be %s.", element.name() , elActualText, element.getText()));
+            LOGGER.info("Text for element {} matches the UI.", element.name());
         }
     }
 
@@ -105,10 +117,44 @@ public class AptoideTest implements IAbstractTest, IMobileUtils {
         storesPage.assertPageOpened(3);
 
         for (StoresPageStaticElement element: StoresPageStaticElement.values()){
+            LOGGER.info("Testing for element {} to appear.", element.name());
             Assert.assertTrue(storesPage.isElementVisible(element), String.format("Element %s could not be found.", element.name()));
 
             String elActualText = storesPage.getStaticElementText(element);
             Assert.assertEquals(elActualText, element.getText(), String.format("Element text is %s when it should be %s.", elActualText, element.getText()));
+            LOGGER.info("Text for element {} matches the UI.", element.name());
         }
+    }
+
+    @Test(testName = "testAppsPage")
+    @MethodOwner(owner = "Ivan")
+    public void testAppsPage(){
+        //This test is intended to fail as all the elements shown in the inspector
+        //cannot be visualized on the app UI.
+        SoftAssert sa = new SoftAssert();
+        Presentation presentationScreen = new Presentation(getDriver());
+        presentationScreen.assertPageOpened(3);
+        HomePage homePage = presentationScreen.tapSkipButton();
+        homePage.assertPageOpened(3);
+
+        AppsPage appsPage = homePage.goToAppsPage();
+        appsPage.assertPageOpened(3);
+
+        for (AppPageStaticElement element: AppPageStaticElement.values()){
+            LOGGER.info("Testing for element {} to appear.", element.name());
+
+            boolean isVisible = appsPage.isElementVisible(element);
+            sa.assertTrue(isVisible, String.format("Element %s could not be found.", element.name()));
+
+            if(!isVisible){
+                LOGGER.error("Element {} could not be found.", element.name());
+                continue;
+            }
+            String elActualText = appsPage.getStaticElementText(element);
+            sa.assertEquals(elActualText, element.getText(), String.format("Element text is %s when it should be %s.", elActualText, element.getText()));
+            LOGGER.info("Text for element {} matches the UI.", element.name());
+        }
+
+        sa.assertAll();
     }
 }
