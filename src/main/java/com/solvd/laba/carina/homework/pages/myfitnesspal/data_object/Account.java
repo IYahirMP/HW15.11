@@ -3,14 +3,12 @@ package com.solvd.laba.carina.homework.pages.myfitnesspal.data_object;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.ActivityLevel;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics.Country;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics.Gender;
-import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics.HeightUnitSelector;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal.Goal;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal.WeightGainWeeklyGoal;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal.WeightLossWeeklyGoal;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +34,12 @@ public class Account {
     private Height height = new Height(0.0);
     private WeightLossWeeklyGoal weightLossWeeklyGoal;
     private WeightGainWeeklyGoal weightGainWeeklyGoal;
+    private String email;
+    private String password;
+    private String username;
+    private boolean consentAll = false;
+    private boolean consentSensitiveDataProcessing = false;
+    private boolean consentTransferOutsideOfCountry = false;
 
     public Account(){}
 
@@ -245,6 +249,60 @@ public class Account {
 
     public Account setWeightGainWeeklyGoal(WeightGainWeeklyGoal weightGainWeeklyGoal) {
         this.weightGainWeeklyGoal = weightGainWeeklyGoal;
+        return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Account setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Account setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Account setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public boolean getConsentAll() {
+        return consentAll;
+    }
+
+    public Account setConsentAll(boolean consentAll) {
+        this.consentAll = consentAll;
+        return this;
+    }
+
+    public boolean getConsentSensitiveDataProcessing() {
+        return consentSensitiveDataProcessing;
+    }
+
+    public Account setConsentSensitiveDataProcessing(boolean consentSensitiveDataProcessing) {
+        this.consentSensitiveDataProcessing = consentSensitiveDataProcessing;
+        return this;
+    }
+
+    public boolean getConsentTransferOutsideOfCountry() {
+        return consentTransferOutsideOfCountry;
+    }
+
+    public Account setConsentTransferOutsideOfCountry(boolean consentTransferOutsideOfCountry) {
+        this.consentTransferOutsideOfCountry = consentTransferOutsideOfCountry;
         return this;
     }
 }

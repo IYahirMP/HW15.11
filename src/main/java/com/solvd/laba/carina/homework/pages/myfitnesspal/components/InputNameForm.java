@@ -9,14 +9,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 
-public class InputName extends AbstractUIObject {
+public class InputNameForm extends AbstractUIObject {
     @FindBy(css = "input[data-testid=\"newName\"]")
     ExtendedWebElement nameInput;
 
     @FindBy(css = "div.css-ubj0kb > button")
     ExtendedWebElement nextButton;
 
-    public InputName(WebDriver driver, SearchContext searchContext) {
+    public InputNameForm(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
@@ -28,7 +28,7 @@ public class InputName extends AbstractUIObject {
         nextButton.click();
     }
 
-    public boolean isPagePresent(){
+    public boolean isPageOpen(){
         waitUntil(ExpectedConditions.invisibilityOf(nameInput), Duration.ofSeconds(3));
         return nameInput.isVisible(Duration.ofSeconds(1));
     }

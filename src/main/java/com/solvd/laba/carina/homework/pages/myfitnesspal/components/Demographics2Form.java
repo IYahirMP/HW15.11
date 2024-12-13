@@ -14,11 +14,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.Duration;
 
-public class Demographic_2 extends AbstractUIObject {
+public class Demographics2Form extends AbstractUIObject {
     private HeightUnitOptionSelector heightUnitOptionSelector;
     private WeightUnitOptionSelector weightUnitOptionSelector;
 
@@ -37,7 +36,7 @@ public class Demographic_2 extends AbstractUIObject {
     @FindBy(css = "nav > div > button[type='submit']")
     private ExtendedWebElement submitButton;
 
-    public Demographic_2(WebDriver driver, SearchContext searchContext) {
+    public Demographics2Form(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
@@ -45,7 +44,7 @@ public class Demographic_2 extends AbstractUIObject {
         submitButton.click(3);
     }
 
-    public boolean isPagePresent(){
+    public boolean isPageOpen(){
         waitUntil(ExpectedConditions.stalenessOf(heightUnitsChange), Duration.ofSeconds(3));
         return heightUnitsChange.isPresent(1);
     }

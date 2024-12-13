@@ -16,6 +16,9 @@ public class HomePage extends AbstractPage {
     @FindBy(xpath = "//iframe[contains(@title, 'SP Consent')]")
     private ExtendedWebElement cookiesIFrame;
 
+    @FindBy(css = "a[href='/account/login']")
+    private ExtendedWebElement loginButton;
+
     public HomePage(WebDriver driver) {
         super(driver);
         setPageAbsoluteURL("https://www.myfitnesspal.com/");
@@ -46,5 +49,11 @@ public class HomePage extends AbstractPage {
             clickAcceptCookiesButton();
         }
         return checkCookiesModal();
+    }
+
+    public LoggedOnPage clickLoginButton() {
+        loginButton.scrollTo();
+        loginButton.click();
+        return new LoggedOnPage(getDriver());
     }
 }

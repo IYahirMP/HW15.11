@@ -4,15 +4,14 @@ import com.solvd.laba.carina.homework.pages.myfitnesspal.components.*;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.Account;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics.HeightUnitOptionSelector;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics.WeightUnitOptionSelector;
-import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics.WeightUnitSelector;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.goal.Goal;
-import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics.HeightUnitSelector;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.SelectableItem;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import com.zebrunner.carina.webdriver.locator.Context;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.devtools.v85.runtime.Runtime;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -23,19 +22,19 @@ public class CreateAccountPage extends AbstractPage {
     Welcome welcomeModal;
 
     @FindBy(css = " main:has(span[aria-valuenow=\"8\"])")
-    InputName nameInputModal;
+    InputNameForm nameInputModal;
 
     @FindBy(css = "main:has(span[aria-valuenow=\"15\"])")
-    Goals goalsModal;
+    GoalsForm goalsModal;
 
-    @FindBy(xpath = " //a[@href=\"/account/create/goals\"]/../../..")
-    BigStep bigstep;
+    @FindBy(xpath = " //a[@href=\"/account/create/goals\"]/ancestor::form")
+    BigStepModal bigstep;
 
-    @FindBy(xpath = "//input[@value='M']/../../../../../..")
-    Demographic_1 demographics1;
+    @FindBy(xpath = "//input[@value='M']/ancestor::form")
+    Demographics1Form demographics1;
 
-    @FindBy(xpath= "//input[contains(@name, 'height')]/../../../../../../..")
-    Demographic_2 demographics2;
+    @FindBy(xpath= "//input[contains(@name, 'height')]/ancestor::form")
+    Demographics2Form demographics2;
 
     @FindBy(css="div[role='presentation']")
     ExtendedWebElement unitChangeModal;
@@ -46,6 +45,19 @@ public class CreateAccountPage extends AbstractPage {
     @Context(dependsOn = "unitChangeModal")
     @FindBy(css="button[type=\"submit\"]")
     private ExtendedWebElement unitsChangeSubmitButton;
+
+    /**
+     * Last page contains a form for entering email/password, and accepting terms and conditions.
+     * Also, contains Google and Facebook options.
+     */
+    @FindBy(xpath="//label[contains(@id,\"Email address\")]/ancestor::form")
+    private RegisterForm registerForm;
+
+    @FindBy(xpath="//input[contains(@id,'username')]/ancestor::form")
+    private CreateUsernameForm createUsernameForm;
+
+    @FindBy(xpath="//input[@aria-label='Accept All']/ancestor::form")
+    private ConsentsForm consentForm;
 
     public CreateAccountPage(WebDriver driver) {
         super(driver);
@@ -72,7 +84,7 @@ public class CreateAccountPage extends AbstractPage {
     }
 
     public boolean isEnterNamePage(){
-        return nameInputModal.isPagePresent();
+        return nameInputModal.isPageOpen();
     }
 
     public void enterGoals(Goal goal){
@@ -88,7 +100,7 @@ public class CreateAccountPage extends AbstractPage {
     }
 
     public boolean isGoalsPage(){
-        return goalsModal.isPagePresent();
+        return goalsModal.isPageOpen();
     }
 
     public void continueFromBigStep(){
@@ -96,7 +108,7 @@ public class CreateAccountPage extends AbstractPage {
     }
 
     public boolean isBigStepPage(){
-        return bigstep.isPagePresent();
+        return bigstep.isPageOpen();
     }
 
     /**
@@ -104,7 +116,7 @@ public class CreateAccountPage extends AbstractPage {
      * @return True if option buttons are detected in page
      */
     public boolean isAnyGoalPage(){
-        return new OptionSelectionScreen(getDriver()).isModalPage();
+        return new OptionSelectionForm(getDriver()).isModalPage();
     }
 
     /**
@@ -112,7 +124,7 @@ public class CreateAccountPage extends AbstractPage {
      * @param option The type of option to select
      */
     public void enterGoalOption(SelectableItem option){
-        OptionSelectionScreen optionModal = new OptionSelectionScreen(getDriver());
+        OptionSelectionForm optionModal = new OptionSelectionForm(getDriver());
         optionModal.clickOptionButton(option);
         waitForJSToLoad();
     }
@@ -124,7 +136,7 @@ public class CreateAccountPage extends AbstractPage {
      * @return true if Goal button has been clicked
      */
     public boolean isGoalClicked(SelectableItem option){
-        OptionSelectionScreen optionModal = new OptionSelectionScreen(getDriver());
+        OptionSelectionForm optionModal = new OptionSelectionForm(getDriver());
         return optionModal.isOptionClicked(option);
     }
 
@@ -133,7 +145,7 @@ public class CreateAccountPage extends AbstractPage {
      * Clicks submit button.
      */
     public void continueFromGoalPage(){
-        OptionSelectionScreen optionModal = new OptionSelectionScreen(getDriver());
+        OptionSelectionForm optionModal = new OptionSelectionForm(getDriver());
         optionModal.clickSubmitButton();
         waitForJSToLoad();
     }
@@ -149,7 +161,7 @@ public class CreateAccountPage extends AbstractPage {
      * @return True if any button[value] elements are visible.
      */
     public boolean isGoalConfirmationPage(){
-        return new GoalConfirmation(getDriver()).isPageOpen();
+        return new GoalConfirmationForm(getDriver()).isPageOpen();
     }
 
     /**
@@ -158,7 +170,7 @@ public class CreateAccountPage extends AbstractPage {
      * https://www.myfitnesspal.com/account/create/goals/{the-goal}/affirmation
      */
     public void continueFromGoalConfirmationPage(){
-        new GoalConfirmation(getDriver()).clickNextButton();
+        new GoalConfirmationForm(getDriver()).clickNextButton();
         waitForJSToLoad();
     }
 
@@ -171,12 +183,12 @@ public class CreateAccountPage extends AbstractPage {
      * @return true if Demographics-1 screen has passed
      */
     public boolean enterDemographicsFirstScreen(Account account){
+        demographics1.enterGender(account);
         demographics1.enterBirthDate(account);
         demographics1.enterCountry(account);
-        demographics1.enterGender(account);
         demographics1.clickSubmitButton();
 
-        return !demographics1.isPagePresent();
+        return !demographics1.isPageOpen();
     }
 
     /**
@@ -191,18 +203,19 @@ public class CreateAccountPage extends AbstractPage {
         HeightUnitOptionSelector currentHUnit = HeightUnitOptionSelector.CENTIMETER;
         WeightUnitOptionSelector currentWUnit = WeightUnitOptionSelector.STONE;
 
+        demographics2.clickHeightUnitChangeButton();
+        setHeightUnit(currentHUnit);
+        demographics2.enterHeight(account);
+
+
         demographics2.clickWeightUnitChangeButton();
         setWeightUnit(currentWUnit);
         demographics2.enterWeight(account);
         demographics2.enterGoalWeight(account);
 
-        demographics2.clickHeightUnitChangeButton();
-        setHeightUnit(currentHUnit);
-        demographics2.enterHeight(account);
-
         demographics2.clickSubmitButton();
 
-        return !demographics2.isPagePresent();
+        return !demographics2.isPageOpen();
     }
 
     /**
@@ -239,5 +252,42 @@ public class CreateAccountPage extends AbstractPage {
                 By.xpath(String.format("//div[@aria-label=\"Change Weight Units\"]/label[%d]",
                         unit.getOptionNumber())),
                 unit.getText(), getDriver(), unitChangeModal.getSearchContext());
+    }
+
+    public boolean register(Account account){
+        registerForm.enterEmail(account.getEmail());
+        registerForm.enterPassword(account.getPassword());
+        registerForm.checkTermsConsent();
+        registerForm.clickSubmitButton();
+        return !registerForm.isPageOpen();
+    }
+
+    public boolean createUsername(Account account){
+        createUsernameForm.enterUsername(account.getUsername());
+        createUsernameForm.clickSubmitButton();
+        return !createUsernameForm.isPageOpen();
+    }
+
+    public HomePage consentDataUsage(Account account){
+        if (!account.getConsentAll()){
+            consentIndividualRequirements(account);
+        }else{
+            consentForm.acceptAll();
+        }
+
+        consentForm.finish();
+        if (consentForm.isPageOpen()){
+            throw new RuntimeException("Could not complete registration");
+        }
+        return new HomePage(getDriver());
+    }
+
+    public void consentIndividualRequirements(Account account){
+        if (account.getConsentTransferOutsideOfCountry()){
+            consentForm.transferOutsideOfCountry();
+        }
+        if (account.getConsentSensitiveDataProcessing()){
+            consentForm.sensitiveDataProcessing();
+        }
     }
 }

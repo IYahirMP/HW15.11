@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 
-public class OptionSelectionScreen extends AbstractUIObject {
+public class OptionSelectionForm extends AbstractUIObject {
     @FindBy(css = "div>button[type='submit']")
     ExtendedWebElement submitButton;
 
@@ -19,11 +19,11 @@ public class OptionSelectionScreen extends AbstractUIObject {
     ExtendedWebElement someButton;
 
 
-    public OptionSelectionScreen(WebDriver driver) {
+    public OptionSelectionForm(WebDriver driver) {
         super(driver);
     }
 
-    public OptionSelectionScreen(WebDriver driver, SearchContext searchContext) {
+    public OptionSelectionForm(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 

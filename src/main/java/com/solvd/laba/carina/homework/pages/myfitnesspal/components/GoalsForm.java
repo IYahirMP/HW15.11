@@ -8,13 +8,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 
-public class Goals extends OptionSelectionScreen {
+public class GoalsForm extends OptionSelectionForm {
 
-    public Goals(WebDriver driver, SearchContext searchContext) {
+    public GoalsForm(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
-    public boolean isPagePresent(){
+    public boolean isPageOpen(){
         ExtendedWebElement loseWeightButton = getDynamicButton(Goal.LOSE_WEIGHT);
         waitUntil(ExpectedConditions.invisibilityOf(loseWeightButton), Duration.ofSeconds(3));
         return loseWeightButton.isVisible(Duration.ofSeconds(1));

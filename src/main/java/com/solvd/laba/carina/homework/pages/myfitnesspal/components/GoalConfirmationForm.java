@@ -9,18 +9,18 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 
-public class GoalConfirmation extends AbstractUIObject {
+public class GoalConfirmationForm extends AbstractUIObject {
     @FindBy(css = "button[type='submit']")
     private ExtendedWebElement nextButton;
 
     @FindBy(xpath = "//a[contains(@href, 'options')]")
     private ExtendedWebElement backButton;
 
-    public GoalConfirmation(WebDriver driver) {
+    public GoalConfirmationForm(WebDriver driver) {
         super(driver);
     }
 
-    public GoalConfirmation(WebDriver driver, SearchContext searchContext) {
+    public GoalConfirmationForm(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 

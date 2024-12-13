@@ -2,6 +2,7 @@ package com.solvd.laba.carina.demo;
 
 import com.solvd.laba.carina.homework.pages.myfitnesspal.HomePage;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.CreateAccountPage;
+import com.solvd.laba.carina.homework.pages.myfitnesspal.LoggedOnPage;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.*;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics.Country;
 import com.solvd.laba.carina.homework.pages.myfitnesspal.data_object.enumeration.demographics.Gender;
@@ -41,6 +42,10 @@ public class MyFitnessPalTest implements IAbstractTest {
                         .setWeightKilogram(68.9)
                         .setGoalWeight(68)
                         .setWeightLossWeeklyGoal(WeightLossWeeklyGoal.LOSE_TWO)
+                        .setEmail("somecompnew123@somedomain.com")
+                        .setPassword("SomeGoodPassword106&")
+                        .setUsername("somecompnew123")
+                        .setConsentAll(true)
             },
                 {
                 new Account("Yahir")
@@ -56,6 +61,10 @@ public class MyFitnessPalTest implements IAbstractTest {
                         .setWeightKilogram(74)
                         .setGoalWeight(75)
                         .setWeightGainWeeklyGoal(WeightGainWeeklyGoal.GAIN_ONE)
+                        .setEmail("somcomn222@somedomain.com")
+                        .setPassword("SomeGoodPassword106&")
+                        .setUsername("somcomn222")
+                        .setConsentAll(true)
             }
         };
     }
@@ -126,6 +135,19 @@ public class MyFitnessPalTest implements IAbstractTest {
         LOGGER.trace("Assert that second Demographics page has been completed correctly");
         Assert.assertTrue(passedDemographics2,"Demographics-2 page could not be completed correctly.");
         processWeeklyGoal(createAccountPage, account);
+        boolean registerPassed = createAccountPage.register(account);
+        Assert.assertTrue(registerPassed, "Personal data page could not be completed correctly.");
+
+        boolean usernamePassed = createAccountPage.createUsername(account);
+        Assert.assertTrue(usernamePassed, "Username page could not be completed correctly.");
+
+        HomePage homePageRegistered = createAccountPage.consentDataUsage(account);
+        homePageRegistered.assertPageOpened(10);
+
+        LoggedOnPage loggedOnPage = homePageRegistered.clickLoginButton();
+        loggedOnPage.assertPageOpened(10);
+
+        Assert.assertEquals(loggedOnPage.getProfileName(), account.getUsername(), "Usernames don't match.");
     }
 
     /**
@@ -171,8 +193,10 @@ public class MyFitnessPalTest implements IAbstractTest {
         SelectableItem goal = weightLoss ? account.getWeightLossWeeklyGoal() : account.getWeightGainWeeklyGoal();
 
         createAccountPage.enterGoalOption(goal);
+        LOGGER.trace("Assert if the goal to go {} pounds has been clicked", goal.getText());
         Assert.assertTrue(createAccountPage.isGoalClicked(goal));
         createAccountPage.continueFromGoalPage();
+        LOGGER.trace("Assert if weekly goal page has been completed.");
         Assert.assertFalse(createAccountPage.isAnyGoalPage());
     }
 }

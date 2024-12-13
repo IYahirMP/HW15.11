@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 
-public class Demographic_1 extends AbstractUIObject {
+public class Demographics1Form extends AbstractUIObject {
     @FindBy(css="input[value='M']")
     ExtendedWebElement maleOption;
 
@@ -29,11 +29,12 @@ public class Demographic_1 extends AbstractUIObject {
     @FindBy(css = "button[type='submit']")
     ExtendedWebElement submitButton;
 
-    public Demographic_1(WebDriver driver, SearchContext searchContext) {
+    public Demographics1Form(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
     public void enterGender(Account account){
+        waitUntil(ExpectedConditions.elementToBeClickable(maleOption), Duration.ofSeconds(1));
         switch(account.getGender()){
             case MALE: maleOption.click(); break;
             case Female: femaleOption.click(); break;
@@ -49,6 +50,7 @@ public class Demographic_1 extends AbstractUIObject {
         countrySelector.click();
         ExtendedWebElement countrySelector = getCountryButton(account.getCountry());
         countrySelector.click();
+        countrySelector.waitUntilElementDisappear(1);
     }
 
     public ExtendedWebElement getCountryButton(Country option){
@@ -63,7 +65,7 @@ public class Demographic_1 extends AbstractUIObject {
         submitButton.click();
     }
 
-    public boolean isPagePresent(){
+    public boolean isPageOpen(){
         waitUntil(ExpectedConditions.invisibilityOf(countrySelector), Duration.ofSeconds(3));
         return countrySelector.isVisible(1);
     }
