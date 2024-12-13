@@ -1,6 +1,7 @@
 package com.solvd.laba.carina.demo;
 
 import com.solvd.laba.carina.homework.aptoide.*;
+import com.solvd.laba.carina.homework.aptoide.objects.HomePageStaticElement;
 import com.solvd.laba.carina.homework.aptoide.objects.SearchResult;
 import com.zebrunner.agent.core.annotation.TestLabel;
 import com.zebrunner.carina.core.IAbstractTest;
@@ -35,7 +36,7 @@ public class AptoideTest implements IAbstractTest, IMobileUtils {
     }
 
     @Test(testName = "testSearchFunction")
-    @MethodOwner(owner = "ivan")
+    @MethodOwner(owner = "Ivan")
     public void testSearchFunction(){
         Presentation presentationScreen = new Presentation(getDriver());
         presentationScreen.assertPageOpened(3);
@@ -54,5 +55,21 @@ public class AptoideTest implements IAbstractTest, IMobileUtils {
 
         installPage.assertPageOpened(3);
         Assert.assertEquals(installPage.getAppName(), results.get(0).getName(), "Result name mismatches the one shown on install page.");
+    }
+
+    @Test(testName = "testHomePage")
+    @MethodOwner(owner="Ivan")
+    public void testHomePage(){
+        Presentation presentationScreen = new Presentation(getDriver());
+        presentationScreen.assertPageOpened(3);
+        HomePage homePage = presentationScreen.tapSkipButton();
+        homePage.assertPageOpened(3);
+
+        for (HomePageStaticElement element: HomePageStaticElement.values()){
+            Assert.assertTrue(homePage.isElementVisible(element), String.format("Element %s could not be found.", element.name()));
+
+            String elActualText = homePage.getStaticElementText(element);
+            Assert.assertEquals(elActualText, element.getText(), String.format("Element text is %s when it should be %s.", elActualText, element.getText()));
+        }
     }
 }

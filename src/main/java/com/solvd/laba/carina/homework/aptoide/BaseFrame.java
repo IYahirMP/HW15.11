@@ -2,25 +2,30 @@ package com.solvd.laba.carina.homework.aptoide;
 
 import com.zebrunner.carina.utils.android.IAndroidUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import com.zebrunner.carina.webdriver.gui.mobile.devices.MobileAbstractPage;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 public abstract class BaseFrame extends MobileAbstractPage implements IAndroidUtils {
     @FindBy(id="cm.aptoide.pt:id/action_home")
-    ExtendedWebElement homeButton;
+    protected ExtendedWebElement homeButton;
 
     @FindBy(id="cm.aptoide.pt:id/action_curation")
-    ExtendedWebElement curationButton;
+    protected ExtendedWebElement curationButton;
 
     @FindBy(id="cm.aptoide.pt:id/action_search")
-    ExtendedWebElement searchButton;
+    protected ExtendedWebElement searchButton;
 
     @FindBy(id="cm.aptoide.pt:id/action_stores")
-    ExtendedWebElement storesButton;
+    protected ExtendedWebElement storesButton;
 
     @FindBy(id="cm.aptoide.pt:id/action_apps")
-    ExtendedWebElement appsButton;
+    protected ExtendedWebElement appsButton;
+
+    @FindBy(id="cm.aptoide.pt:id/fragment_placeholder")
+    protected ExtendedWebElement mainContent;
 
     public BaseFrame(WebDriver driver) {
         super(driver);
